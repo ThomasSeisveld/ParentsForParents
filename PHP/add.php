@@ -1,5 +1,22 @@
 <?php
-$vraag = '';
+// error reporting from server
+error_reporting(E_ALL);
+
+// Connect to db
+$conn = new SQLite3('../ASSETS/DB.db');
+
+// form submit
+if (isset($_POST['submit'])) {
+    $name = $_POST['name'];
+    $gender = $_POST['gender'];
+    $Title = $_POST['Title'];
+    $question = $_POST['question'];
+
+    $insert_query = "INSERT INTO probleem (naam,vraag,title,geslacht) VALUES ('$name','$question','$Title','$gender')";
+    $conn->query($insert_query);
+
+    header('Location: index.php');
+}
 ?>
 <!DOCTYPE html>
 <html lang="nl">
@@ -17,8 +34,8 @@ $vraag = '';
 
     <nav>
         <ul>
-            <li><a href="#home">Home</a></li>
-            <li class="SELECTED"><a href="#about">add</a></li>
+            <li><a href="index.php">Home</a></li>
+            <li class="SELECTED"><a href="add.php">add</a></li>
         </ul>
     </nav>
 
@@ -33,8 +50,8 @@ $vraag = '';
                 <label for="gender">Geslacht</label>
                 <select id="gender" name="gender" required>
                     <option value="">Selecteer geslacht</option>
-                    <option value="man">Man</option>
-                    <option value="vrouw">Vrouw</option>
+                    <option value="Vader">Vader</option>
+                    <option value="Moeder">Moeder</option>
                 </select>
             </div>
             <div class="form-group">
@@ -46,7 +63,7 @@ $vraag = '';
                 <textarea id="question" name="question" required></textarea>
             </div>
             <div class="form-group">
-                <button type="submit">Verzenden</button>
+                <button type="submit" name="submit">Verzenden</button>
             </div>
         </form>
     </div>
