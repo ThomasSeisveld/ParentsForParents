@@ -69,6 +69,23 @@ if (isset($_POST['search'])) {
     </ul>
 </div>
 
+<div class="popular">
+    <h2>Populairste vraag:</h2>
+    <?php
+    $popular_query = "SELECT post_id, COUNT(*) as count FROM comments GROUP BY post_id ORDER BY count DESC LIMIT 1";
+    $popular_result = $conn->query($popular_query);
+    $popular_row = $popular_result->fetchArray();
+
+    $popular_post_id = $popular_row['post_id'];
+    $popular_post_query = "SELECT * FROM probleem WHERE ID = '$popular_post_id'";
+    $popular_post_result = $conn->query($popular_post_query);
+    $popular_post_row = $popular_post_result->fetchArray();
+    ?>
+
+    <h3><?php echo $popular_post_row['title']; ?></h3>
+    <p><?php echo $popular_post_row['vraag']; ?></p>
+</div>
+
 <footer>
     <p>&copy; 2024 Mijn Website. Alle rechten voorbehouden.</p>
 </footer>
